@@ -1,0 +1,22 @@
+#!/bin/bash
+
+##################################
+#                                #
+#       JUST IMAGE SHORT ID      #
+#                                #
+##################################
+
+run_level0()
+{
+ if [[ ! -f ./.hash0 ]]
+  then
+  docker pull busybox 1> /dev/null 2> /dev/null
+  flag_hash=$(docker images --format '{{.ID}}' | tr -d $'\n' | sha512sum | awk '{printf $1}')
+  echo "$flag_hash" > .hash0
+ fi
+}
+
+clean_level0()
+{
+  :
+}

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+##################################
+#                                #
+#       JUST IMAGE ID            #
+#                                #
+##################################
+
+run_level1()
+{
+  local level=1
+  local level_hash_file="./.hash${level}"
+  local flag_hash
+
+  if [[ ! -f "$level_hash_file" ]]
+  then
+    flag_hash=$(docker inspect busybox -f '{{.Id}}' | tr ':' ' ' | awk '{printf $2}' | sha512sum | awk '{printf $1}')
+    echo "$flag_hash" > "$level_hash_file"
+  fi
+}
+
+clean_level1()
+{
+ : 
+}

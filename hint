@@ -1,0 +1,19 @@
+#!/bin/bash
+
+hint_level0()
+{
+ rand=$(shuf --head-count=1 --input-range=1-6)
+ case "$rand" in
+  1) echo 'check your docker images';;
+  2) echo 'maybe you should run docker maybe!!';;
+  3) echo 'check https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-an-image/' ;;
+  4) echo 'or maybe check https://docs.docker.com/reference/cli/docker/image/ls/ (i d'\''ont know!!)' ;;
+  5) echo 'checkout this book: deep dive to docker';;
+  6) echo 'the flag is somewhere try hard; by other bu odin use your brain';;
+  esac
+}
+
+# num=$(wc -l ./secret)
+num=0
+
+"hint_level${num}"
