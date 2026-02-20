@@ -9,22 +9,25 @@ then
   exit 1
 fi
 
-user_flag_hash=$(echo -n "$1" | sha512sum | awk '{print $1}')
+user_flag_hash=$(echo "$1" | sha512sum | awk '{print $1}')
 flag_hash=$(cat ".hash$num")
+
+echo "\"$user_flag_hash\""
+echo "\"$flag_hash\""
 
 if [[  "$user_flag_hash" == "$flag_hash" ]]
 then
-  source "./.level${num}"
+  source "./level${num}"
   echo "level$num: success"
-  echo "level$num" > secret
-  source "./.level$((num + 1))"
+  echo "level$num" >> secret
+  source "./level$((num + 1))"
   "clean_level${num}"
   "run_level$((num + 1))"
 elif [[ "$1" == "restart" ]]
 then
   echo -n > secret
   rm -rf ./.hash{0..1}
-  source ./.level0
+  source ./level0
   run_level0
 else
   echo 'try again or use hint to get help'
