@@ -1,0 +1,45 @@
+#!/bin/bash
+set -e
+
+SRC='.'
+LEVEL_DIR="./levels/"
+
+if [[ $# -ne 1 ]]
+then
+	exit 1
+fi
+
+main() {
+	if [[ "$1" == "restart" ]]
+	then
+		source "${LEVEL_DIR}/level0.sh"
+		run_level0
+		echo 0 > "${SRC}/level"
+		exit 0
+	fi
+
+	num=$(cat ${SRC}/level)
+	user_flag_hash=$(echo -n "$1" | sha512sum | awk '{print $1}')
+	flag_hash=$(cat "${SRC}/secret")
+
+	if [[ "$user_flag_hash" == "$flag_hash" ]]
+	then
+		echo "level $(cat level): success"
+
+		level=$((num + 1))
+		echo $level > level
+
+		source "${LEVEL_DIR}/level${num}.sh"
+		source "${LEVEL_DIR}/level${level}.sh"
+		# echo "${LEVEL_DIR}/level${level}.sh"
+
+		"clean_level${num}"
+		#
+		echo "run_level${level}"
+	else
+		echo 'try again or use hint to get help'
+	fi
+
+}
+
+main "$1"
